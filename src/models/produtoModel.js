@@ -20,6 +20,24 @@ const produtoModel = {
             throw error;
 
         }
+    },
+
+    inserirProduto: async (nomeProduto, precoProduto) => {
+        try {
+
+            const pool = await getConnection();
+
+            let querySLQ = 'INSERT INTO Produtos (nomeProduto, precoProduto) VALUES(@nomeProduto, @precoProduto)';
+
+            await pool.request().input('nomeProduto', sql.VarChar(100), nomeProduto)
+                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
+                .query(querySLQ);
+
+
+        } catch (error) {
+            console.error('Erro ao inserir produto',error);
+            throw error;
+        }
     }
 };
 
