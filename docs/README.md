@@ -28,7 +28,6 @@
 
 #### GET /Cliente
 - **Descrição**: Obtém a lista de clientes cadastrado
-- **Parameters**: ?cpfCliente="cpfExemplo" obtém um filtro de clientes buscando pelo cpf
 - **Response**: Array de clientes
 
 #### POST /Cliente

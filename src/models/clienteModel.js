@@ -21,19 +21,6 @@ const clienteModel = {
             throw error;
         }
     },
-    //buscar cliente por cpf
-
-    buscarCpf: async (cpfCliente) => {
-        const pool = await getConnection();
-
-        let querySLQ = 'SELECT * FROM Clientes WHERE cpfCliente = @cpfCliente';
-
-        const clientes = await pool.request()
-            .input('cpfCliente', sql.VarChar(11), cpfCliente)
-            .query(querySLQ);
-
-        return clientes.recordset;
-    },
 
     //cadastrar cliente
     inserirCliente: async (nomeCliente, cpfCliente) => {
