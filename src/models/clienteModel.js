@@ -17,7 +17,7 @@ const clienteModel = {
             return result.recordset;
 
         } catch (error) {
-            console.error("erro ao buscar produtos", error);
+            console.error("erro ao buscar Cliente", error);
             throw error;
         }
     },
