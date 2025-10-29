@@ -48,6 +48,42 @@ const produtoController = {
             res.status(500).json({ erro: 'Erro ao cadastrar produto.' });
         }
 
+    },
+
+    atualizarProduto: async (req, res) => {
+        try {
+
+            const { idProduto } = req.params;
+            const { nomeProduto, precoProduto } = req.body;
+
+            // validação de UUID(unico universalmente ID)
+            if (idProduto.legth != 36) {
+                return res.status(400).json({ error: 'id do produto invalido' })
+            }
+
+            const produto = await produtoModel.buscarUm(idProduto);//buscar pelo banco de dados
+
+            if (!produto || produto.legth !== 1) {
+                return res.status(404).json({ error: 'produto não encontrado' });
+            }
+
+            //array de produto
+            const produtoAtual = produto[0];
+
+            //verifica se existe e verifica se não está vazio
+            const nomeAtualizado = nomeProduto ?? produtoAtual.nomeProduto;
+            //verifica já existe um preço e se não está vazio
+            const precoAtualizado = precoProduto ?? produtoAtual.precoProduto;
+
+            await produtoModel.atualizarProduto(idProduto, nomeAtualizado, precoAtualizado);
+            res.status(200).json({ Message: 'Produto atualizado com sucesso!' });
+
+        } catch (error) {
+
+            console.error('erro ao atualizar produto', error);
+            res.status(500).json({ erro: 'erro interno no servidor ao atualizar produto' });
+
+        }
     }
 }
 

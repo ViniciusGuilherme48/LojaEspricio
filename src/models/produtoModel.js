@@ -22,6 +22,28 @@ const produtoModel = {
         }
     },
 
+    buscarUm: async (idProduto) => {
+        try {
+
+            const pool = await getConnection();
+            const querySLQ = 'SELECT * FROM Produtos WHERE idProduto =@idProduto'
+
+            const result = await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .query(querySLQ);
+
+            return result.recordset;
+
+        } catch (error) {
+
+            console.error('erro ao buscar o produto', error);
+            throw error;
+
+        }
+
+
+    },
+
     inserirProduto: async (nomeProduto, precoProduto) => {
         try {
 
@@ -35,7 +57,7 @@ const produtoModel = {
 
 
         } catch (error) {
-            console.error('Erro ao inserir produto',error);
+            console.error('Erro ao inserir produto', error);
             throw error;
         }
     }
