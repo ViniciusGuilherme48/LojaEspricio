@@ -41,6 +41,24 @@ const clienteModel = {
         }
     },
 
+     buscarEmail: async (emailCliente) => {
+        try {
+
+            const pool = await getConnection();
+
+            let querySLQ = "SELECT * FROM Clientes WHERE emailCliente = @emailCliente";
+
+            const result = await pool.request()
+                .input("emailCliente", sql.VarChar(200), emailCliente)
+                .query(querySLQ);
+
+            return result.recordset;
+
+        } catch (error) {
+            console.error("erro ao buscar Cliente", error);
+            throw error;
+        }
+    },
     //cadastrar cliente
     inserirCliente: async (nomeCliente, cpfCliente, emailCliente, senhaCliente) => {
         try {
