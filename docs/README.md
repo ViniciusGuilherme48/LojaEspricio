@@ -20,10 +20,40 @@
 - **Response**:
 ```
 {
-    "message":"Produto cadastrado com sucesso
+    "message":"Produto cadastrado com sucesso"
+}
+```
+#### PUT /produtos/:idProduto
+- **Descrição**: Atualiza um produto cadastrado
+- **body**:
+```
+{
+    "nomeProduto":"nomeExemplo"
+    "precoProduo":"precoExemplo"
+}
+```
+- **Response**:
+```
+{
+    "message":"Produto atualizado com sucesso"
+}
+```
+- **Error Response**:
+```
+{
+    "message":"ID invalido"
+    "message":"ID não encontrado"
 }
 ```
 
+#### DELETE /Produtos/:idProduto
+- **Descrição**:Deleta um produto cadastrado
+- **Response**: 
+```
+{
+    message:"Produto deletado com sucesso"
+}
+```
 ### Clientes
 
 #### GET /Cliente

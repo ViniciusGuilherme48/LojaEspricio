@@ -22,17 +22,38 @@ const clienteModel = {
         }
     },
 
-    //cadastrar cliente
-    inserirCliente: async (nomeCliente, cpfCliente) => {
+    buscarCpf: async (cpfCliente) => {
         try {
 
             const pool = await getConnection();
 
-            let querySLQ = 'INSERT INTO Clientes (nomeCliente, cpfCliente) VALUES(@nomeCliente, @cpfCliente)';
+            let querySLQ = "SELECT * FROM Clientes WHERE cpfCliente = @cpfCliente";
+
+            const result = await pool.request()
+                .input("cpfCliente", sql.VarChar(15), cpfCliente)
+                .query(querySLQ);
+
+            return result.recordset;
+
+        } catch (error) {
+            console.error("erro ao buscar Cliente", error);
+            throw error;
+        }
+    },
+
+    //cadastrar cliente
+    inserirCliente: async (nomeCliente, cpfCliente, emailCliente, senhaCliente) => {
+        try {
+
+            const pool = await getConnection();
+
+            let querySLQ = 'INSERT INTO Clientes (nomeCliente, cpfCliente, emailCliente, senhaCliente) VALUES(@nomeCliente, @cpfCliente, @emailCliente, @senhaCliente)';
 
             await pool.request()
                 .input('nomeCliente', sql.VarChar(100), nomeCliente)
                 .input('cpfCliente', sql.VarChar(11), cpfCliente)
+                .input('emailCliente', sql.VarChar(200), emailCliente)
+                .input('senhaCliente', sql.VarChar(255), senhaCliente)
                 .query(querySLQ);
 
         } catch (error) {
