@@ -57,13 +57,13 @@ const produtoController = {
             const { nomeProduto, precoProduto } = req.body;
 
             // validação de UUID(unico universalmente ID)
-            if (idProduto.legth != 36) {
+            if (idProduto.length != 36) {
                 return res.status(400).json({ error: 'id do produto invalido' })
             }
 
             const produto = await produtoModel.buscarUm(idProduto);//buscar pelo banco de dados
 
-            if (!produto || produto.legth !== 1) {
+            if (!produto || produto.length !== 1) {
                 return res.status(404).json({ error: 'produto não encontrado' });
             }
 
@@ -82,6 +82,32 @@ const produtoController = {
 
             console.error('erro ao atualizar produto', error);
             res.status(500).json({ erro: 'erro interno no servidor ao atualizar produto' });
+
+        }
+    },
+
+    deletarProduto: async (req, res) => {
+        try {
+
+            const { idProduto } = req.params;
+
+            if (idProduto.length != 36) {
+                return res.status(400).json({ error: "ID do produto invalido" });
+            }
+
+            const produto = await produtoModel.buscarUm(idProduto);
+
+            if (!produto || produto.length !== 1) {
+                return res.status(404).json({ error: 'produto não encontrado' });
+            }
+
+            await produtoModel.deletarProduto(idProduto);
+            res.status(200).json({ message: 'Produto deletado com sucesso' });
+            
+        } catch (error) {
+
+            console.error('erro ao deletar produto');
+            res.status(500).json({ error: 'erro interno no servidor ao deletar produto' })
 
         }
     }
